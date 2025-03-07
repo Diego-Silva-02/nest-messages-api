@@ -1,7 +1,10 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 
 @Controller('messages')
 export class MessagesController {
+
+    // To chance status code use @HttpCode() decorator
+    // Instead of using numbers, use HttpStatus Enum
 
     @Get()
     findAll() {
@@ -16,5 +19,13 @@ export class MessagesController {
     @Post()
     create(@Body() message: any) {
         return message;
+    }
+
+    @Put(':id')
+    update(@Param('id') id: string, @Body() message: any) {
+        return {
+            id,
+            ...message
+        };
     }
 }
