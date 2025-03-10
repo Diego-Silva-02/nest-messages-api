@@ -1,7 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { MessagesService } from './messages.service';
 
 @Controller('messages')
 export class MessagesController {
+
+    constructor(private readonly messagesService: MessagesService) { }
 
     // To chance status code use @HttpCode() decorator
     // Instead of using numbers, use HttpStatus Enum
