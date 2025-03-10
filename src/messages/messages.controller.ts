@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 
 @Controller('messages')
 export class MessagesController {
@@ -6,9 +6,14 @@ export class MessagesController {
     // To chance status code use @HttpCode() decorator
     // Instead of using numbers, use HttpStatus Enum
 
+    // @Query is to use query parameters
+    // This is used especially in paginations
+
     @Get()
-    findAll() {
-        return 'This route return all messages!';
+    findAll(@Query() pagination: any) {
+        const { limit = 10, offset = 0 } = pagination;
+        
+        return `This route return all messages. Limit = ${limit}, Offset = ${offset}.`;
     }
 
     @Get(':id')
