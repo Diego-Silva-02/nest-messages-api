@@ -1,24 +1,10 @@
-import { IsNotEmpty, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
+import { PartialType } from "@nestjs/mapped-types";
+import { CreateMessageDto } from "./create-message.dto";
+import { IsBoolean, IsOptional } from "class-validator";
 
-export class UpdateMessageDto {
-    @IsString()
-    @IsNotEmpty()
-    @MinLength(5)
-    @MaxLength(255)
+// use mapped types (or partial types) to repeat variables and validations from one class
+export class UpdateMessageDto extends PartialType(CreateMessageDto) {
+    @IsBoolean()
     @IsOptional()
-    readonly text?: string;
-
-    @IsString()
-    @IsNotEmpty()
-    @MinLength(5)
-    @MaxLength(50)
-    @IsOptional()
-    readonly from?: string;
-
-    @IsString()
-    @IsNotEmpty()
-    @MinLength(5)
-    @MaxLength(50)
-    @IsOptional()
-    readonly to?: string;
+    readonly read?: boolean
 }
