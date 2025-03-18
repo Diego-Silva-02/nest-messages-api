@@ -7,7 +7,12 @@ async function bootstrap() {
   
   // require to install 'class-validator' and 'class-transformer' lib's
   // using this you can  validate object's in the request
-  app.useGlobalPipes(new ValidationPipe()); 
+  app.useGlobalPipes(new ValidationPipe({
+    // remove unused params in a request (example in this case: CreateMessageDto)
+    whitelist: true,
+    // return an error when the param in the request does not exist
+    forbidNonWhitelisted: true
+  })); 
   
   await app.listen(3000);
 }
