@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
 import { MessagesService } from './messages.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
@@ -22,7 +22,7 @@ export class MessagesController {
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
+    findOne(@Param('id', ParseIntPipe) id: number) {
         return this.messagesService.findOne(id);
     }
 
@@ -32,12 +32,13 @@ export class MessagesController {
     }
 
     @Put(':id')
-    update(@Param('id') id: string, @Body() updateMessageDto: UpdateMessageDto) {
+    update(@Param('id', ParseIntPipe) id: number, @Body() updateMessageDto: UpdateMessageDto) {
         return this.messagesService.update(id, updateMessageDto);
     }
 
+    // ParseIntPipe transform the value in a number and throws error if isn't a number
     @Delete(':id')
-    remove(@Param('id') id: string) {
+    remove(@Param('id', ParseIntPipe) id: number) {
         return this.messagesService.remove(id);
     }
 }

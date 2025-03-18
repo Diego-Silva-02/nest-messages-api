@@ -11,7 +11,9 @@ async function bootstrap() {
     // remove unused params in a request (example in this case: CreateMessageDto)
     whitelist: true,
     // return an error when the param in the request does not exist
-    forbidNonWhitelisted: true
+    forbidNonWhitelisted: true,
+    // try to transform params data types and dtos
+    // transform: true,
   })); 
   
   await app.listen(3000);
