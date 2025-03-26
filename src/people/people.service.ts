@@ -1,26 +1,86 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePersonDto } from './dto/create-person.dto';
 import { UpdatePersonDto } from './dto/update-person.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Person } from './entities/person.entity';
 
 @Injectable()
 export class PeopleService {
-  create(createPersonDto: CreatePersonDto) {
-    return 'This action adds a new person';
+  constructor(
+    @InjectRepository(Person)
+    private readonly personRepository: Repository<Person>,
+  ) { }
+
+  throwNotFoundError() {
+    throw new NotFoundException('Person not found.');
   }
 
-  findAll() {
-    return `This action returns all people`;
+  async create(createPersonDto: CreatePersonDto): Promise<Person> {
+    try {
+      const personData = {
+        name: createPersonDto?.name,
+        passwordHash: createPersonDto?.password,
+        email: createPersonDto?.email
+      };
+  
+      const newPerson = this.personRepository.create(personData);
+      await this.personRepository.save(newPerson);
+  
+      return newPerson;
+    } catch (error) {
+      if(error.code === '23505') { // unique key already exists (duplicate key)
+        throw new ConflictException('The E-mail is already registered!');
+      } 
+
+      throw error;
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} person`;
+  async findAll(): Promise<Person[]> {
+    const people = await this.personRepository.find({
+      order: {
+        id: 'desc',
+      },
+    });
+    return people;
   }
 
-  update(id: number, updatePersonDto: UpdatePersonDto) {
-    return `This action updates a #${id} person`;
+  async findOne(id: number): Promise<Person> {
+    const person = await this.personRepository.findOne({
+      where: {
+        id
+      },
+    });
+
+    if (person)
+      return person;
+
+    this.throwNotFoundError();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} person`;
+  async update(id: number, updatePersonDto: UpdatePersonDto): Promise<Person> {
+    const updatePersonData = {
+      passwordHash: updatePersonDto?.password,
+      name: updatePersonDto?.name
+    };
+
+    const person = await this.personRepository.preload({
+      id,
+      ...updatePersonData
+    });
+
+    if(!person) this.throwNotFoundError();
+
+    return this.personRepository.save(person);
+  }
+
+  async remove(id: number): Promise<Person> {
+    const person = await this.personRepository.findOneBy({ id });
+
+    if (!person)
+      this.throwNotFoundError();
+      
+    return this.personRepository.remove(person);
   }
 }
