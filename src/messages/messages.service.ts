@@ -14,18 +14,6 @@ export class MessagesService {
         
     }
 
-    private lastId = 1;
-    private messages: Message[] = [
-        {
-            id: 1,
-            text: 'This is a test message',
-            from: 'Joana',
-            to: 'João',
-            read: false,
-            date: new Date()
-        }
-    ];
-
     throwNotFoundError() {
         // throw new HttpException('Message not found.', HttpStatus.NOT_FOUND);
         throw new NotFoundException('Message not found.');
@@ -62,21 +50,19 @@ export class MessagesService {
         return this.messageRepository.save(message);
     }
 
-    update(id: number, updateMessageDto: UpdateMessageDto): Message {
-        const messageIndex = this.messages.findIndex(item => item.id === id);
-
-        if(messageIndex < 0) {
-            this.throwNotFoundError();
+    async update(id: number, updateMessageDto: UpdateMessageDto): Promise<Message> {
+        const partialUpdateMessageDto = {
+            read: updateMessageDto?.read,
+            text: updateMessageDto?.text
         }
+        const message = await this.messageRepository.preload({ // find object and update
+            id,
+            ...partialUpdateMessageDto
+        });
+        
+        if(!message) this.throwNotFoundError();
 
-        const updatedMessage = this.messages[messageIndex];
-
-        this.messages[messageIndex] = {
-            ...updatedMessage,
-            ...updateMessageDto
-        }
-
-        return this.messages[messageIndex];
+        return this.messageRepository.save(message);
     }
 
     async remove(id: number): Promise<Message> {
