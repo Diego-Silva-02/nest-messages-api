@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MessagesModule } from './messages/messages.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { PeopleModule } from './people/people.module';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       autoLoadEntities: true, // Load entities without need especify
       synchronize: true, // Syncronize with DB. This shoud not be used in production
     }),
-    MessagesModule
+    MessagesModule,
+    PeopleModule
   ],
   controllers: [AppController],
   providers: [AppService],

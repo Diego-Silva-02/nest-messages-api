@@ -10,9 +10,7 @@ export class MessagesService {
     constructor(
         @InjectRepository(Message)
         private readonly messageRepository: Repository<Message>, // this declarator gives repository acess
-    ) {
-        
-    }
+    ) { }
 
     throwNotFoundError() {
         // throw new HttpException('Message not found.', HttpStatus.NOT_FOUND);
