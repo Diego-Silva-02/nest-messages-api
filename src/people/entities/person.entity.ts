@@ -1,5 +1,6 @@
 import { IsEmail } from "class-validator";
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Message } from "src/messages/entities/message.entity";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class Person {
@@ -21,4 +22,14 @@ export class Person {
 
     @UpdateDateColumn()
     updatedAt?: Date;
+
+    // One person can send a lot of messages
+    // Field from Message that will be caught
+    @OneToMany(() => Message, message => message.from)
+    sentMessages: Message[];
+
+    // One person can received a lot of messages
+    // Field from Message that will be caught
+    @OneToMany(() => Message, message => message.to)
+    receivedMessages: Message[];
 }

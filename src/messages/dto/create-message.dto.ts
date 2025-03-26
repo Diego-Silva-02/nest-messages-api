@@ -7,16 +7,4 @@ export class CreateMessageDto {
     @MaxLength(255)
     //@IsOptional() -> using this, the key isn't required
     readonly text: string;
-
-    @IsString()
-    @IsNotEmpty()
-    @MinLength(5)
-    @MaxLength(50)
-    readonly from: string;
-
-    @IsString()
-    @IsNotEmpty()
-    @MinLength(5)
-    @MaxLength(50)
-    readonly to: string;
 }
