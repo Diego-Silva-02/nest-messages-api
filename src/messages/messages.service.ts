@@ -21,7 +21,16 @@ export class MessagesService {
     
 
     async findAll(): Promise<Message[]> {
-        const messages = await this.messageRepository.find();
+        const messages = await this.messageRepository.find({
+            relations: ['from', 'to'], // informs the variables that have relationships so that they appear in the return
+            order: {
+                id: 'desc'
+            },
+            select: { // see how get only id and name
+                from: true,
+                to: true,
+            }
+        });
         return messages;
     }
 
@@ -29,6 +38,11 @@ export class MessagesService {
         const message = await this.messageRepository.findOne({
             where: {
                 id, // id: id
+            },
+            relations: ['from', 'to'], // informs the variables that have relationships so that they appear in the return
+            select: { // see how get only id and name
+                from: true,
+                to: true,
             }
         })
 
@@ -39,10 +53,17 @@ export class MessagesService {
     }
 
     async create(createMessageDto: CreateMessageDto): Promise<Message> {
+        const { fromId, toId } = createMessageDto;
         // find person who is creating the message
+        const from = await this.peopleService.findOne(fromId);
+        
         // find person who the message will be sent
+        const to = await this.peopleService.findOne(toId);
+
         const newMessage = {
-            ...createMessageDto,
+            text: createMessageDto.text,
+            from: from.id.toString(),
+            to: to.id.toString(),
             read: false,
             date: new Date()
         }

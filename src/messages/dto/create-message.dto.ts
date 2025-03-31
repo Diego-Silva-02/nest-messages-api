@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, MaxLength, MinLength } from "class-validator";
+import { IsNotEmpty, IsPositive, IsString, MaxLength, MinLength } from "class-validator";
 
 export class CreateMessageDto {
     @IsString()
@@ -7,4 +7,10 @@ export class CreateMessageDto {
     @MaxLength(255)
     //@IsOptional() -> using this, the key isn't required
     readonly text: string;
+
+    @IsPositive()
+    fromId: number;
+
+    @IsPositive()
+    toId: number;
 }
