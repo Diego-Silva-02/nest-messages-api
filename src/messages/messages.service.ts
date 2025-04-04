@@ -96,18 +96,14 @@ export class MessagesService {
     }
 
     async update(id: number, updateMessageDto: UpdateMessageDto): Promise<Message> {
-        const partialUpdateMessageDto = {
-            read: updateMessageDto?.read,
-            text: updateMessageDto?.text
-        }
-        const message = await this.messageRepository.preload({ // find object and update
-            id,
-            ...partialUpdateMessageDto
-        });
+        const message = await this.findOne(id);
         
-        if(!message) this.throwNotFoundError();
+        message.text = updateMessageDto?.text ?? message.text;
+        message.read = updateMessageDto?.read ?? message.read;
+        
+        this.messageRepository.save(message);
 
-        return this.messageRepository.save(message);
+        return message;
     }
 
     async remove(id: number): Promise<Message> {
