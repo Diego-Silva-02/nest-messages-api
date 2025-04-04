@@ -23,14 +23,15 @@ export class Message {
     
     // @ManyToOne() //Many of this entity can have this same variable value
     // In this case, many message can be sent from this same person
-    @ManyToOne(() => Person)
+    // onDelete: 'CASCADE' will remove her messages too. This paremeter have other options, like SET NULL
+    @ManyToOne(() => Person, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
     // Especify column "from" that save Person.id from the person that send the message
     @JoinColumn({ name: 'from' })
     from: string;
     
     // @ManyToOne() //Many of this entity can have this same variable value
     // In this case, many message can be sent to this same person
-    @ManyToOne(() => Person)
+    @ManyToOne(() => Person, { onDelete: 'CASCADE', onUpdate: 'CASCADE' })
     // Especify column "to" that save Person.id from the person that send the message
     @JoinColumn({ name: 'to' })
     to: string;
