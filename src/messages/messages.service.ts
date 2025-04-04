@@ -21,16 +21,38 @@ export class MessagesService {
     
 
     async findAll(): Promise<Message[]> {
-        const messages = await this.messageRepository.find({
-            relations: ['from', 'to'], // informs the variables that have relationships so that they appear in the return
-            order: {
-                id: 'desc'
-            },
-            select: { // see how get only id and name
-                from: true,
-                to: true,
-            }
-        });
+        // const messages = await this.messageRepository.find({
+        //     relations: ['from', 'to'], // informs the variables that have relationships so that they appear in the return
+        //     order: {
+        //         id: 'desc'
+        //     },
+        //     select: { // see how get only id and name
+        //         from: true,
+        //         to: true,
+        //     }
+        // });
+        // return messages;
+
+        // to filter only fields from 'from' and 'to' use query builder, like in this example
+        const messages = await this.messageRepository
+            .createQueryBuilder('message')
+            .leftJoinAndSelect('message.from', 'from')
+            .leftJoinAndSelect('message.to', 'to')
+            .select([
+                'message.id',
+                'message.text',
+                'message.read',
+                'message.date',
+                'message.createdAt',
+                'message.updatedAt',
+                'from.id',
+                'from.name',
+                'to.id',
+                'to.name'
+            ])
+            .orderBy('message.id', 'DESC')
+            .getMany();
+        
         return messages;
     }
 
