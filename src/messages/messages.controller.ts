@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } 
 import { MessagesService } from './messages.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 
 @Controller('messages')
 export class MessagesController {
@@ -15,10 +16,8 @@ export class MessagesController {
     // This is used especially in paginations
 
     @Get()
-    findAll(@Query() pagination: any) {
-        const { limit = 10, offset = 0 } = pagination;
-        
-        return this.messagesService.findAll();
+    findAll(@Query() paginationDto: PaginationDto) {
+        return this.messagesService.findAll(paginationDto);
     }
 
     @Get(':id')
