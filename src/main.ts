@@ -14,7 +14,8 @@ async function bootstrap() {
     forbidNonWhitelisted: true,
     // try to transform params data types and dtos
     // transform: true,
-  })); 
+  }),
+  /*new ParseIntIdPipe() // whit this, the app will use ParseIntIdPipe globally */); 
   
   await app.listen(3000);
 }
