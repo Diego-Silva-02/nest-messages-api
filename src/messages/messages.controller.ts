@@ -9,6 +9,7 @@ import { TimingConnectionInterceptor } from 'src/common/interceptors/timing-conn
 import { ErrorHandlingInterceptor } from 'src/common/interceptors/error-handling.interceptor';
 
 @Controller('messages')
+// @UseInterceptors(SimpleCacheInterceptor)
 @UsePipes(ParseIntIdPipe)
 export class MessagesController {
     constructor(private readonly messagesService: MessagesService) { }
@@ -20,13 +21,13 @@ export class MessagesController {
     // This is used especially in paginations
 
     @Get()
-    @UseInterceptors(TimingConnectionInterceptor, ErrorHandlingInterceptor) // interceptors loads before and/or after pipe and funtions
+    // @UseInterceptors(TimingConnectionInterceptor, ErrorHandlingInterceptor) // interceptors loads before and/or after pipe and funtions
     findAll(@Query() paginationDto: PaginationDto) {
         return this.messagesService.findAll(paginationDto);
     }
 
     @Get(':id')
-    @UseInterceptors(AddHeaderInterceptor, ErrorHandlingInterceptor) // interceptors loads before pipe and funtions
+    // @UseInterceptors(AddHeaderInterceptor, ErrorHandlingInterceptor) // interceptors loads before pipe and funtions
     findOne(@Param('id') id: number) {
         return this.messagesService.findOne(id);
     }
