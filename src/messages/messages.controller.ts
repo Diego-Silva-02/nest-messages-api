@@ -4,10 +4,9 @@ import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { ParseIntIdPipe } from 'src/common/pipes/parse-int-id.pipe';
-import { ChangeDataInterceptor } from 'src/common/interceptors/change-data.interceptor';
 
 @Controller('messages')
-// @UseInterceptors(SimpleCacheInterceptor, ChangeDataInterceptor)
+// @UseInterceptors(SimpleCacheInterceptor, ChangeDataInterceptor, AddHeaderInterceptor)
 @UsePipes(ParseIntIdPipe)
 export class MessagesController {
     constructor(private readonly messagesService: MessagesService) { }

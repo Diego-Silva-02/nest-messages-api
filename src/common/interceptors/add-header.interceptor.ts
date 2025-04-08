@@ -1,11 +1,15 @@
-import { CallHandler, ExecutionContext, NestInterceptor } from "@nestjs/common";
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from "@nestjs/common";
 import { Observable } from "rxjs";
+import { MessagesService } from "src/messages/messages.service";
 
+@Injectable()
 export class AddHeaderInterceptor implements NestInterceptor {
-    intercept(
+    constructor(private readonly messagesService: MessagesService) {}
+
+    async intercept(
         context: ExecutionContext,
         next: CallHandler<any>
-    ): Observable<any> | Promise<Observable<any>> {
+    ): Promise<Observable<any>> {
         const response = context.switchToHttp().getResponse();
 
         response.setHeader('X-Custom-Header', 'Header value example'); // set a X-Custom-Header in header response
