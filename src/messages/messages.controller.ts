@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, UseInterceptors, UsePipes } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UsePipes } from '@nestjs/common';
 import { MessagesService } from './messages.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
@@ -6,7 +6,8 @@ import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { ParseIntIdPipe } from 'src/common/pipes/parse-int-id.pipe';
 
 @Controller('messages')
-// @UseInterceptors(SimpleCacheInterceptor, ChangeDataInterceptor, AddHeaderInterceptor)
+// You can use one this to test interceptors
+// @UseInterceptors(SimpleCacheInterceptor, ChangeDataInterceptor, AddHeaderInterceptor, AuthTokenInterceptor)
 @UsePipes(ParseIntIdPipe)
 export class MessagesController {
     constructor(private readonly messagesService: MessagesService) { }
