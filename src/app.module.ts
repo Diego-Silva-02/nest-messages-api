@@ -24,3 +24,12 @@ import { PeopleModule } from './people/people.module';
   providers: [AppService],
 })
 export class AppModule {}
+// to implement a Middleware use this
+// implements NestModule {
+//   configure(consumer: MiddlewareConsumer) {
+//     consumer.apply(SimpleMiddleware, AnotherMiddleware).forRoutes({
+//       path: 'messages', // * -> all path's
+//       method: RequestMethod.ALL // to all type of method's
+//     });
+//   }
+// }

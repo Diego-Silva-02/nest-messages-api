@@ -20,7 +20,9 @@ export class MessagesController {
 
     @Get()
     // @UseInterceptors(TimingConnectionInterceptor, ErrorHandlingInterceptor) // interceptors loads before and/or after pipe and funtions
-    findAll(@Query() paginationDto: PaginationDto) {
+    findAll(@Query() paginationDto: PaginationDto) { // @Req() req: Request // to use middleware request
+        // console.log('MessagesController', req['user']);
+        
         return this.messagesService.findAll(paginationDto);
     }
 
