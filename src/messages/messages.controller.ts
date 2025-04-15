@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query, UsePipes } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, Query, UsePipes } from '@nestjs/common';
 import { MessagesService } from './messages.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
@@ -23,7 +23,8 @@ export class MessagesController {
     findAll(@Query() paginationDto: PaginationDto) { // @Req() req: Request // to use middleware request
         // console.log('MessagesController', req['user']);
         
-        return this.messagesService.findAll(paginationDto);
+        throw new BadRequestException('MESSAGE ERROR');
+        // return this.messagesService.findAll(paginationDto);
     }
 
     @Get(':id')

@@ -4,6 +4,8 @@ import { AppService } from './app.service';
 import { MessagesModule } from './messages/messages.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PeopleModule } from './people/people.module';
+import { APP_FILTER } from '@nestjs/core';
+import { MyExceptionFilter } from './common/filters/my-exception.filter';
 
 @Module({
   imports: [
@@ -21,7 +23,13 @@ import { PeopleModule } from './people/people.module';
     PeopleModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER,        // using this, will not necessary use new,
+      useClass: MyExceptionFilter // and will stay using dependency injection
+    }
+  ],
 })
 export class AppModule {}
 // to implement a Middleware use this
