@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MessagesModule } from './messages/messages.module';
@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PeopleModule } from './people/people.module';
 import { APP_FILTER } from '@nestjs/core';
 import { MyExceptionFilter } from './common/filters/my-exception.filter';
+import { SimpleMiddleware } from './common/middlewares/simple.middleware';
 
 @Module({
   imports: [
@@ -28,7 +29,11 @@ import { MyExceptionFilter } from './common/filters/my-exception.filter';
     {
       provide: APP_FILTER,        // using this, will not necessary use new,
       useClass: MyExceptionFilter // and will stay using dependency injection
-    }
+    },                            // To use this, it's necessary to use @Injection in class
+    // {
+    //   provide: APP_GUARD,    // using this, will not necessary use new,
+    //   useClass: IsAdminGuard // and will stay using dependency injection
+    // }                        // To use this, it's necessary to use @Injection in class
   ],
 })
 export class AppModule {}

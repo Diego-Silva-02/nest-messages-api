@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, Query, UsePipes } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards, UsePipes } from '@nestjs/common';
 import { MessagesService } from './messages.service';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
@@ -19,12 +19,13 @@ export class MessagesController {
     // This is used especially in paginations
 
     @Get()
+    // @UseGuards(IsAdminGuard)
     // @UseInterceptors(TimingConnectionInterceptor, ErrorHandlingInterceptor) // interceptors loads before and/or after pipe and funtions
     findAll(@Query() paginationDto: PaginationDto) { // @Req() req: Request // to use middleware request
         // console.log('MessagesController', req['user']);
         
-        throw new BadRequestException('MESSAGE ERROR');
-        // return this.messagesService.findAll(paginationDto);
+        // throw new BadRequestException('MESSAGE ERROR'); // use this to see ExceptionFilter
+        return this.messagesService.findAll(paginationDto);
     }
 
     @Get(':id')
