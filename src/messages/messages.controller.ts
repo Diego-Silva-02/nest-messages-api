@@ -4,6 +4,7 @@ import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { ParseIntIdPipe } from 'src/common/pipes/parse-int-id.pipe';
+import { ReqDataParam } from 'src/common/params/req-data-param.decorator';
 
 @Controller('messages')
 // You can use one this to test interceptors
@@ -21,6 +22,8 @@ export class MessagesController {
     @Get()
     // @UseGuards(IsAdminGuard)
     // @UseInterceptors(TimingConnectionInterceptor, ErrorHandlingInterceptor) // interceptors loads before and/or after pipe and funtions
+    // @UrlParam() url: string -> a Param decorator created to get the url used in the request
+        // other example it's @ReqDataParam that return the corresponding param used from request
     findAll(@Query() paginationDto: PaginationDto) { // @Req() req: Request // to use middleware request
         // console.log('MessagesController', req['user']);
         
