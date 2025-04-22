@@ -4,7 +4,6 @@ import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { ParseIntIdPipe } from 'src/common/pipes/parse-int-id.pipe';
-import { ReqDataParam } from 'src/common/params/req-data-param.decorator';
 
 @Controller('messages')
 // You can use one this to test interceptors

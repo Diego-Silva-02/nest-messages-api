@@ -5,7 +5,10 @@ import { UpdatePersonDto } from './dto/update-person.dto';
 
 @Controller('people')
 export class PeopleController {
-  constructor(private readonly peopleService: PeopleService) {}
+  constructor(
+    private readonly peopleService: PeopleService,
+    // private readonly messageUtils: MessageUtils
+  ) {}
 
   @Post()
   create(@Body() createPersonDto: CreatePersonDto) {
@@ -14,6 +17,7 @@ export class PeopleController {
 
   @Get()
   findAll() {
+    // console.log(this.messageUtils.invertString('Diego'));
     return this.peopleService.findAll();
   }
 
