@@ -19,6 +19,10 @@ import { MessageUtils, MessageUtilsMock } from './message.utils';
       useValue: new MessageUtilsMock(), // Value to be used
       // useClass: MessageUtils // Class
     },
+    // { // this is a different way to import. In this case, one constant
+    //   provide: SERVER_NAME,
+    //   useValue: 'My name is NestJS'
+    // },
   ],
   // all that you export's in a module, you can use when you import this module
   exports: [MessageUtils]

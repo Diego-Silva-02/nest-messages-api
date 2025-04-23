@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Message } from './entities/message.entity';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
@@ -6,13 +6,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PeopleService } from 'src/people/people.service';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { SERVER_NAME } from 'src/common/constants/server-name.constant';
 
 @Injectable()
 export class MessagesService {
     constructor(
         @InjectRepository(Message)
         private readonly messageRepository: Repository<Message>, // this declarator gives repository acess
-        private readonly peopleService: PeopleService
+        private readonly peopleService: PeopleService,
+        // @Inject(SERVER_NAME) // use this to import a constant 
+        // private readonly serverName: string,
     ) { }
 
     throwNotFoundError() {
@@ -23,6 +26,8 @@ export class MessagesService {
 
     async findAll(paginationDto?: PaginationDto): Promise<Message[]> {
         const { limit = 10, offset = 0 } = paginationDto; 
+
+        // console.log(this.serverName);
 
         // const messages = await this.messageRepository.find({
         //     relations: ['from', 'to'], // informs the variables that have relationships so that they appear in the return

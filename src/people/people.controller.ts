@@ -7,6 +7,7 @@ import { UpdatePersonDto } from './dto/update-person.dto';
 export class PeopleController {
   constructor(
     private readonly peopleService: PeopleService,
+    // private readonly messageUtils: MessageUtils
   ) {}
 
   @Post()
@@ -16,6 +17,7 @@ export class PeopleController {
 
   @Get()
   findAll() {
+    // console.log(this.messageUtils.invertString('Diego'));
     return this.peopleService.findAll();
   }
 
