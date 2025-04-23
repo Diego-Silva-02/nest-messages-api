@@ -6,3 +6,10 @@ export class MessageUtils {
         return str.split('').reverse().join('');
     }
 }
+
+@Injectable()
+export class MessageUtilsMock {
+    invertString() {
+        return 'test return';
+    }
+}
