@@ -7,7 +7,7 @@ import { UpdatePersonDto } from './dto/update-person.dto';
 export class PeopleController {
   constructor(
     private readonly peopleService: PeopleService,
-    // private readonly messageUtils: MessageUtils
+    // private readonly messageUtils: MessageUtils,
   ) {}
 
   @Post()

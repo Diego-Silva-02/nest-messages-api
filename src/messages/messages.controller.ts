@@ -4,9 +4,7 @@ import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { ParseIntIdPipe } from 'src/common/pipes/parse-int-id.pipe';
-import { ONLY_LOWERCASE_LETTERS_REGEX, REMOVE_SPACES_REGEX } from './messages.constant';
-import { RemoveSpacesRegex } from 'src/common/regex/remove-spaces.regex';
-import { OnlyLowercaseLettersRegex } from 'src/common/regex/only-lowercase-letters.regex';
+import { MY_DYNAMIC_CONFIG, MyDynamicModuleConfigs } from 'src/my-dynamic/my-dynamic.module';
 
 @Controller('messages')
 // You can use one this to test interceptors
@@ -17,10 +15,14 @@ export class MessagesController {
         private readonly messagesService: MessagesService,
         // @Inject(SERVER_NAME)
         // private readonly serverName: string,
-        @Inject(REMOVE_SPACES_REGEX)
-        private readonly removeSpacesRegex: RemoveSpacesRegex,
-        @Inject(ONLY_LOWERCASE_LETTERS_REGEX)
-        private readonly onlyLowercaseLettersRegex: OnlyLowercaseLettersRegex,
+
+        // @Inject(REMOVE_SPACES_REGEX)
+        // private readonly removeSpacesRegex: RemoveSpacesRegex,
+        // @Inject(ONLY_LOWERCASE_LETTERS_REGEX)
+        // private readonly onlyLowercaseLettersRegex: OnlyLowercaseLettersRegex,
+
+        // @Inject(MY_DYNAMIC_CONFIG)
+        // private readonly myDynamicConfigs: MyDynamicModuleConfigs
     ) { }
 
     // To change status code use @HttpCode() decorator
@@ -37,8 +39,8 @@ export class MessagesController {
     findAll(@Query() paginationDto: PaginationDto) { // @Req() req: Request // to use middleware request
         // console.log('MessagesController', req['user']);
 
-        console.log(this.removeSpacesRegex.execute('REMOVE SPACES'));
-        console.log(this.onlyLowercaseLettersRegex.execute('REMOVE SPACES lowercase letter'));
+        // console.log(this.removeSpacesRegex.execute('REMOVE SPACES'));
+        // console.log(this.onlyLowercaseLettersRegex.execute('REMOVE SPACES lowercase letter'));
         
         // throw new BadRequestException('MESSAGE ERROR'); // use this to see ExceptionFilter
         return this.messagesService.findAll(paginationDto);
@@ -47,6 +49,8 @@ export class MessagesController {
     @Get(':id')
     // @UseInterceptors(AddHeaderInterceptor, ErrorHandlingInterceptor) // interceptors loads before pipe and funtions
     findOne(@Param('id') id: number) {
+        // console.log(this.myDynamicConfigs);
+        
         return this.messagesService.findOne(id);
     }
 

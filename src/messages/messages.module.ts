@@ -5,46 +5,51 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Message } from './entities/message.entity';
 import { PeopleModule } from 'src/people/people.module';
 import { MessageUtils } from './message.utils';
-import { RegexFactory } from 'src/common/regex/regex.factory';
-import { ONLY_LOWERCASE_LETTERS_REGEX, REMOVE_SPACES_REGEX } from './messages.constant';
-import { RemoveSpacesRegex } from 'src/common/regex/remove-spaces.regex';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Message]),
     forwardRef(() => PeopleModule),
+    // using this you can create a dynamic module
+    // MyDynamicModule.register({
+    //   apiKey: 'Here comes the API KEY',
+    //   apiUrl: 'http://shuashuashuashua.shua'
+    // }),
   ],
   controllers: [MessagesController],
   providers: [
     MessagesService,
     MessageUtils,
-    RegexFactory,
-    {
-      provide: REMOVE_SPACES_REGEX, //token
-      useFactory: (regexFactory: RegexFactory) => { // useFactory contains a function
 
-        return regexFactory.create('RemoveSpacesRegex');
-      },
-      inject: [RegexFactory], // injecting in factory in order
-    },
-    {
-      provide: ONLY_LOWERCASE_LETTERS_REGEX, //token
-      // useFactory contains a function
-      useFactory: async (regexFactory: RegexFactory) => {
-        // async and await can be used like in this example
-        // console.log('Awaiting promise.. .');
-        // await new Promise(resolve => setTimeout(resolve, 3000));
-        // console.log('Promise resolved');
+    // RegexFactory,
+    // {
+    //   provide: REMOVE_SPACES_REGEX, //token
+    //   useFactory: (regexFactory: RegexFactory) => { // useFactory contains a function
 
-        return regexFactory.create('OnlyLowercaseLettersRegex');
-      },
-      inject: [RegexFactory], // injecting in factory in order
-    },
+    //     return regexFactory.create('RemoveSpacesRegex');
+    //   },
+    //   inject: [RegexFactory], // injecting in factory in order
+    // },
+    // {
+    //   provide: ONLY_LOWERCASE_LETTERS_REGEX, //token
+    //   // useFactory contains a function
+    //   useFactory: async (regexFactory: RegexFactory) => {
+    //     // async and await can be used like in this example
+    //     // console.log('Awaiting promise.. .');
+    //     // await new Promise(resolve => setTimeout(resolve, 3000));
+    //     // console.log('Promise resolved');
+
+    //     return regexFactory.create('OnlyLowercaseLettersRegex');
+    //   },
+    //   inject: [RegexFactory], // injecting in factory in order
+    // },
+
     // { // this is the same thing to simple use [MessageUtils] on providers
     //   provide: MessageUtils, // Token
     //   useValue: new MessageUtilsMock(), // Value to be used
     //   // useClass: MessageUtils // Class
     // },
+
     // { // this is a different way to import. In this case, one constant
     //   provide: SERVER_NAME,
     //   useValue: 'My name is NestJS'
