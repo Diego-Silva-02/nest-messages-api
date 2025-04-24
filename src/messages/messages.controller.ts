@@ -4,8 +4,9 @@ import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { ParseIntIdPipe } from 'src/common/pipes/parse-int-id.pipe';
-import { RegexProtocol } from 'src/common/regex/regex.protocol';
-import { ONLY_LOWERCASE_LETTERS_REGEX, REMOVE_SPACES_REGEX, SERVER_NAME } from './messages.constant';
+import { ONLY_LOWERCASE_LETTERS_REGEX, REMOVE_SPACES_REGEX } from './messages.constant';
+import { RemoveSpacesRegex } from 'src/common/regex/remove-spaces.regex';
+import { OnlyLowercaseLettersRegex } from 'src/common/regex/only-lowercase-letters.regex';
 
 @Controller('messages')
 // You can use one this to test interceptors
@@ -14,12 +15,12 @@ import { ONLY_LOWERCASE_LETTERS_REGEX, REMOVE_SPACES_REGEX, SERVER_NAME } from '
 export class MessagesController {
     constructor(
         private readonly messagesService: MessagesService,
-        @Inject(SERVER_NAME)
-        private readonly serverName: string,
+        // @Inject(SERVER_NAME)
+        // private readonly serverName: string,
         @Inject(REMOVE_SPACES_REGEX)
-        private readonly removeSpacesRegex: RegexProtocol,
+        private readonly removeSpacesRegex: RemoveSpacesRegex,
         @Inject(ONLY_LOWERCASE_LETTERS_REGEX)
-        private readonly onlyLowercaseLettersRegex: RegexProtocol,
+        private readonly onlyLowercaseLettersRegex: OnlyLowercaseLettersRegex,
     ) { }
 
     // To change status code use @HttpCode() decorator
@@ -35,9 +36,9 @@ export class MessagesController {
         // other example it's @ReqDataParam that return the corresponding param used from request
     findAll(@Query() paginationDto: PaginationDto) { // @Req() req: Request // to use middleware request
         // console.log('MessagesController', req['user']);
-        
-        console.log(this.removeSpacesRegex.execute(this.serverName));
-        console.log(this.onlyLowercaseLettersRegex.execute(this.serverName));
+
+        console.log(this.removeSpacesRegex.execute('REMOVE SPACES'));
+        console.log(this.onlyLowercaseLettersRegex.execute('REMOVE SPACES lowercase letter'));
         
         // throw new BadRequestException('MESSAGE ERROR'); // use this to see ExceptionFilter
         return this.messagesService.findAll(paginationDto);
