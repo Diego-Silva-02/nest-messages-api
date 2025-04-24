@@ -6,7 +6,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PeopleService } from 'src/people/people.service';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
-import { SERVER_NAME } from 'src/common/constants/server-name.constant';
 
 @Injectable()
 export class MessagesService {
