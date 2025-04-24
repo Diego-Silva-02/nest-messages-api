@@ -29,7 +29,12 @@ import { RemoveSpacesRegex } from 'src/common/regex/remove-spaces.regex';
     },
     {
       provide: ONLY_LOWERCASE_LETTERS_REGEX, //token
-      useFactory: (regexFactory: RegexFactory) => { // useFactory contains a function
+      // useFactory contains a function
+      useFactory: async (regexFactory: RegexFactory) => {
+        // async and await can be used like in this example
+        // console.log('Awaiting promise.. .');
+        // await new Promise(resolve => setTimeout(resolve, 3000));
+        // console.log('Promise resolved');
 
         return regexFactory.create('OnlyLowercaseLettersRegex');
       },
