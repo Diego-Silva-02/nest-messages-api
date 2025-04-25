@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { Message } from './entities/message.entity';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
@@ -7,7 +7,13 @@ import { Repository } from 'typeorm';
 import { PeopleService } from 'src/people/people.service';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
 
-@Injectable()
+// Scope.DEFAULT -> The provider is a singleton
+    // Always that you use this class, you will use the same instance
+    // Giving permission to you use the state from the application
+// Scope.REQUEST -> The provider is instantiated on each request
+// Scope.TRANSIENT -> Create a different instance from this provider to each class that use this provider
+
+@Injectable({ scope: Scope.DEFAULT })
 export class MessagesService {
     constructor(
         @InjectRepository(Message)
