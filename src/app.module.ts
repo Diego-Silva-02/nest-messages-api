@@ -4,21 +4,23 @@ import { AppService } from './app.service';
 import { MessagesModule } from './messages/messages.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PeopleModule } from './people/people.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(), // config module give permission to use .env
     TypeOrmModule.forRoot({ // settings for database connections
-      type: 'postgres',
-      host: 'localhost',
-      port: 5433,
-      username: 'postgres',
-      database: 'postgres',
-      password: '123456',
-      autoLoadEntities: true, // Load entities without need especify
-      synchronize: true, // Syncronize with DB. This shoud not be used in production
+      type: process.env.DATABASE_TYPE as 'postgres',
+      host: process.env.DATABASE_HOST,
+      port: +process.env.DATABASE_PORT, // + converts to number
+      username: process.env.DATABASE_USERNAME,
+      database: process.env.DATABASE_DATABASE,
+      password: process.env.DATABASE_PASSWORD,
+      autoLoadEntities: Boolean(process.env.DATABASE_AUTOLOADENTITIES), // Load entities without need especify // 1 === true
+      synchronize: Boolean(process.env.DATABASE_SYNCHRONIZE), // Syncronize with DB. This shoud not be used in production
     }),
     MessagesModule,
-    PeopleModule
+    PeopleModule,
   ],
   controllers: [AppController],
   providers: [
@@ -33,7 +35,12 @@ import { PeopleModule } from './people/people.module';
     // }                        // To use this, it's necessary to use @Injection in class
   ],
 })
-export class AppModule {}
+export class AppModule { }
+// constructor() { // in class AppModule
+//   console.log(process.env.ESSA_E_UMA_VARIAVEL_1); // process.env -> variable to acess .env
+//   console.log(process.env.ESSA_E_UMA_VARIAVEL_2);
+// }
+
 // to implement a Middleware use this
 // implements NestModule {
 //   configure(consumer: MiddlewareConsumer) {
