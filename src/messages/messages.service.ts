@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, Scope } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException, Scope } from '@nestjs/common';
 import { Message } from './entities/message.entity';
 import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
@@ -6,6 +6,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PeopleService } from 'src/people/people.service';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
+import messageConfig from './message.config';
+import { ConfigType } from '@nestjs/config';
 
 // Scope.DEFAULT -> The provider is a singleton
     // Always that you use this class, you will use the same instance
@@ -25,10 +27,17 @@ export class MessagesService {
 
         // @Inject(SERVER_NAME) // use this to import a constant 
         // private readonly serverName: string,
+
+        // to get message.config.ts configurations
+        // @Inject(messageConfig.KEY)
+        // private readonly messagesConfigurations: ConfigType<typeof messageConfig>,
     ) { }
     // to get .env values using nestjs
     // const databaseUsername = this.configService.get<string>('DATABASE_USERNAME');
     // console.log({databaseUsername});
+
+    // to get message.config.ts configurations
+    // console.log('messagesConfigurations', messagesConfigurations);
 
     throwNotFoundError() {
         // throw new HttpException('Message not found.', HttpStatus.NOT_FOUND);
