@@ -19,9 +19,16 @@ export class MessagesService {
         @InjectRepository(Message)
         private readonly messageRepository: Repository<Message>, // this declarator gives repository acess
         private readonly peopleService: PeopleService,
+
+        // you can use ConfigService to get values from .env using nestjs
+        // private readonly configService: ConfigService,
+
         // @Inject(SERVER_NAME) // use this to import a constant 
         // private readonly serverName: string,
     ) { }
+    // to get .env values using nestjs
+    // const databaseUsername = this.configService.get<string>('DATABASE_USERNAME');
+    // console.log({databaseUsername});
 
     throwNotFoundError() {
         // throw new HttpException('Message not found.', HttpStatus.NOT_FOUND);
